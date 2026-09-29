@@ -141,3 +141,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 PROMO_START_DATE = os.getenv('START_DATE', '2026-01-01')
 PROMO_END_DATE = os.getenv('END_DATE', '2026-12-31')
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
