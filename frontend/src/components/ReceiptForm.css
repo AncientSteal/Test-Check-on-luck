@@ -5,6 +5,7 @@
   padding: 32px;
   border-radius: 24px;
   position: relative;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
 }
 
 .form-container .alert-error {
@@ -38,33 +39,40 @@
   gap: 8px;
 }
 
-.form-group input {
+.form-container input {
   padding: 14px 16px;
   border-radius: 10px;
   border: 1px solid var(--input-border);
   transition: border ease-in-out 0.3s;
 }
 
-.form-group input:hover {
+.form-container input:hover {
   border: 1px solid var(--accent);
 }
 
-.form-group input.input-error {
+.form-container input.input-error {
   border: 1px solid red;
 }
 
-.form-group input.input-error::placeholder {
+.form-container input.input-error::placeholder {
   color: red;
   opacity: 0.5;
 }
 
-.form-group input:focus {
+.form-container input:focus {
   border: 1px solid var(--accent);
   outline: none;
 }
 
-.form-group label {
+.form-container label {
   font-size: 14px;
+}
+
+.qr-autofill-group {
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .error-text {
@@ -87,6 +95,14 @@
   box-sizing: border-box;
 }
 
+.form-alert {
+    font-size: 14px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding-top: 4px;
+}
+
 @media (max-width: 500px) {
   .form-container {
     padding: 16px;
@@ -99,6 +115,11 @@
   }
 
   .form-group {
+    padding-top: 8px;
+    gap: 4px;
+  }
+
+  .qr-autofill-group {
     padding-top: 8px;
     gap: 4px;
   }

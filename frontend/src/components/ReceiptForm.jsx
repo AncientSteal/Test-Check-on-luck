@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import "./ReceiptForm.css";
 import { CloseIcon, DangerIcon } from './Icons';
+import { getCookie } from '../utils/getCoockie';
+import { validateReceiptForm  } from '../utils/validateReceipt';
+import { parseQrString } from '../utils/parseQrString';
+
 
 export default function ReceiptForm({ onSuccess, onClose }) {
     const [formData, setFormData] = useState({
@@ -11,8 +15,9 @@ export default function ReceiptForm({ onSuccess, onClose }) {
         amount: ''
     });
 
+    // Стейт для поля быстрой вставки строки QR-кода
+    const [qrRawString, setQrRawString] = useState('');
     const [errors, setErrors] = useState({});
-
     const [submitStatus, setSubmitStatus] = useState({ success: null, message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,56 +29,27 @@ export default function ReceiptForm({ onSuccess, onClose }) {
         }
     };
 
-    const validationForm = () => {
-        const newErrors = {};
-        const digitsOnly = /^\d+$/;
+    const handleQrChange = (e) => {
+        const value = e.target.value;
+        setQrRawString(value);
 
-        if (!formData.fn) newErrors.fn = 'Поле ФН обязательно для заполнения';
-        else if (!digitsOnly.test(formData.fn)) newErrors.fn = 'ФН должен состоять только из цифр';
-
-        if (!formData.fd) newErrors.fd = 'Поле ФД обязательно для заполнения';
-        else if (!digitsOnly.test(formData.fd)) newErrors.fd = 'ФД должен состоять только из цифр';
-
-        if (!formData.fp) newErrors.fp = 'Поле ФП обязательно для заполнения';
-        else if (!digitsOnly.test(formData.fp)) newErrors.fp = 'ФП должен состоять только из цифр';
-
-        if (!formData.purchase_date) {
-            newErrors.purchase_date = 'Укажите дату и время покупки';
+        // запускаем  утилиту парсинга
+        const parsedData = parseQrString(value);
+        
+        if (parsedData) {
+            setFormData(parsedData); // наполняем инпуты
+            setErrors({}); // чистим ошибки
         }
-
-        if (!formData.amount) {
-            newErrors.amount = 'Укажите сумму чека';
-        } else {
-            const numAmount = parseFloat(formData.amount);
-            if (isNaN(numAmount) || numAmount < 1000) {
-                newErrors.amount = 'Сумма в чеке должна быть не менее 1000 ₽';
-            }
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
     };
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitStatus({ success: null, message: '' });
 
-        if (!validationForm()) return;
+        const validationErrors = validateReceiptForm(formData);
+        setErrors(validationErrors);
+        const hasErrors = Object.keys(validationErrors).length > 0;
+        if (hasErrors) return;
         setIsSubmitting(true);
 
         try {
@@ -127,10 +103,22 @@ export default function ReceiptForm({ onSuccess, onClose }) {
             <button type="button" className="close-form-btn" onClick={onClose} aria-label="Закрыть форму">
                 <CloseIcon />
             </button>
+            <div className="qr-autofill-group">
+                <label>
+                    Автозаполнение по строке QR-кода:
+                </label>
+                <input 
+                    type="text" 
+                    value={qrRawString} 
+                    onChange={handleQrChange}
+                    placeholder="Вставьте строку (пример: t=20260928T1035&s=1500.00&fn=...)" 
+                />
+            </div>
             <form onSubmit={handleSubmit} noValidate>
-                {submitStatus.success === false && submitStatus.message && (
-                    <div className="form-alert alert-error">
-                        <DangerIcon /> {submitStatus.message}
+                {submitStatus.message && (
+                    <div className={`form-alert ${submitStatus.success ? 'alert-success' : 'alert-error'}`}>
+                        {submitStatus.success === false && <DangerIcon />}
+                        {submitStatus.message}
                     </div>
                 )}
 
