@@ -1,4 +1,4 @@
-import { AcceptedStatusIcon, CheckingStatusIcon, MoneyIcon, RejectedStatusIcon } from "./Icons";
+import { AcceptedStatusIcon, CalendarIcon, CheckingStatusIcon, MoneyIcon, RejectedStatusIcon } from "./Icons";
 import "./ReceiptList.css";
 
 export default function ReceiptsList({ receipts, loading }) {
@@ -66,7 +66,7 @@ export default function ReceiptsList({ receipts, loading }) {
                   </span>
                 </td>
                 <td className="amount-cell"> <MoneyIcon /> {parseFloat(receipt.amount).toLocaleString('ru-RU')} ₽</td>
-                <td>{formatDate(receipt.registration_date)}</td>
+                <td><CalendarIcon />{formatDate(receipt.registration_date)}</td>
                 <td className="reason-cell">
                   {receipt.status === 'rejected' ? receipt.reject_reason : ''}
                 </td>

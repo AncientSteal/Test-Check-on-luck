@@ -5,6 +5,7 @@ import ReceiptForm from './components/ReceiptForm';
 import Pagination from './components/Pagination'
 import ListFooter from './components/ListFooter';
 import SuccessModal from './components/SuccessModal';
+import useWindowWidth from './hooks/useWindowWidth';
 
 function App() {
   const [activeTab, setActiveTab] = useState('cabinet');
@@ -13,6 +14,7 @@ function App() {
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const windowWidth = useWindowWidth()
 
   const fetchReceipts = async (pageNumber = 1) => {
     setLoading(true)
@@ -44,7 +46,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} windowWidth={windowWidth} />
 
       <main>
         {activeTab === 'form' ? (

@@ -65,7 +65,7 @@ h3 {
 }
 
 section {
-  padding: 24px 40px;
+  padding: 24px var(--fileds);
 }
 
 .screen-cabinet {
@@ -150,4 +150,42 @@ section {
   font-size: 32px;
   color: black;
   font-weight: 400;
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --fileds: 32px;
+  }  
+}
+
+@media (max-width: 500px) {
+  :root {
+    --fileds: 16px;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: start;
+    gap: 6px;
+  }
+
+  .list-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .list-footer_info {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .registration-btn {
+    padding: 12px;
+  }
+
+  .modal-container {
+    border-radius: 16px;
+    max-width: 70%;
+    padding: 20px 30px;
+  }
 }

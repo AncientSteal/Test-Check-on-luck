@@ -1,77 +1,165 @@
 .receipts-table tr {
-    display: grid;
-    grid-template-columns: 18% 18% 16% 18% 30%;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 18% 18% 16% 21% 27%;
+  align-items: center;
 }
 
 .receipts-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 30px 0;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 30px 0;
 }
 
-.receipts-table th, 
+.receipts-table th,
 .receipts-table td {
-    padding: 12px;
-    box-sizing: border-box;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--text);
+  padding: 12px;
+  box-sizing: border-box;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text);
 }
 
 .receipts-table th {
-    text-align: left;
-  
+  text-align: left;
 }
 
 .receipts-table thead th {
-    background-color: var(--btn-active);
-    height: 100%;
-    display: flex;
-    align-items: center;
+  background-color: var(--btn-active);
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .status-badge {
-    padding: 6px 10px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  padding: 6px 10px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .status-checking {
-    background-color: var(--checking-status-bg);
-    color: var(--checking-status);
+  background-color: var(--checking-status-bg);
+  color: var(--checking-status);
 }
 
 .status-rejected {
-    background-color: var(--rejected-status-bg);
-    color: var(--rejected-status);
+  background-color: var(--rejected-status-bg);
+  color: var(--rejected-status);
 }
 
 .status-accepted {
-    background-color: var(--accepted-status-bg);
-    color: var(--accepted-status);
+  background-color: var(--accepted-status-bg);
+  color: var(--accepted-status);
 }
 
 .empty-container {
-    margin: 32px auto;
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
-    color: var(--pale-text);
+  margin: 32px auto;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  color: var(--pale-text);
 }
 
 .empty-list-text h3 {
+  margin-bottom: 16px;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .receipts-table th,
+  .receipts-table td {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .status-badge {
+    padding: 2px 6px 2px 2px;
+    border-radius: 12px;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .empty-list-text h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 700px) {
+  .receipts-table thead {
+    display: none;
+  }
+
+  .receipts-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px solid var(--pale-accent);
+    border-radius: 12px;
+    padding: 12px;
     margin-bottom: 16px;
-    font-size: 28px;
-    font-weight: 400;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .receipts-table td {
+    padding: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .receipts-table td.amount-cell {
+    order: -2;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--pale-accent);
+    padding-bottom: 10px;
+    margin-bottom: 2px;
+  }
+
+  .receipts-table td:has(.status-badge) {
+    order: -1;
+  }
+
+  .receipts-table td.reason-cell {
+    background-color: var(--rejected-status-bg);
+    border-radius: 6px;
+    padding: 8px 8px;
+    margin-top: 8px;
+    color: var(--rejected-status);
+  }
+
+  .receipts-table td.reason-cell:empty {
+    display: none;
+  }
+
+  .receipts-table td:nth-child(1)::before {
+    content: "Дата покупки:";
     color: var(--text);
+  }
+  .receipts-table td:nth-child(4)::before {
+    content: "Регистрация:";
+    color: var(--text);
+  }
+
+  .receipts-table td:nth-child(3)::before {
+    content: "Сумма:";
+    color: var(--text);
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  td svg {
+    display: none;
+  }
+
 }

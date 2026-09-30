@@ -88,6 +88,18 @@ export const CloseIcon = () => (
     </svg>
 );
 
+export const BurgerIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px" fill="none">
+        <path 
+            d="M 4 6 L 20 6 M 4 12 L 20 12 M 4 18 L 20 18" 
+            stroke="#787E91" 
+            strokeWidth="2"
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
 export const DangerIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M7.99833 14.2733H3.95833C1.64499 14.2733 0.678328 12.62 1.79833 10.6L3.87833 6.85333L5.83833 3.33333C7.02499 1.19333 8.97166 1.19333 10.1583 3.33333L12.1183 6.86L14.1983 10.6067C15.3183 12.6267 14.345 14.28 12.0383 14.28H7.99833V14.2733Z" fill="#F04D4D" stroke="#F04D4D" strokeLinecap="round" strokeLinejoin="round"/>
@@ -101,5 +113,17 @@ export const SuccessIcon = () => (
         <rect x="1.25" y="1.25" width="59.5" height="59.5" rx="10.75" fill="none"/>
         <rect x="1.25" y="1.25" width="59.5" height="59.5" rx="10.75" stroke="#37CD1A" strokeWidth="2.5"/>
         <path d="M18.6694 32.8348L26.0028 40.1681L44.3361 21.8348" stroke="#37CD1A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const CalendarIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M6.66675 1.66666V4.16666" stroke="#787E91" strokeWidth="1.2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.3333 1.66666V4.16666" stroke="#787E91" strokeWidth="1.2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2.91675 7.57501H17.0834" stroke="#787E91" strokeWidth="1.2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M17.5 7.08332V14.1667C17.5 16.6667 16.25 18.3333 13.3333 18.3333H6.66667C3.75 18.3333 2.5 16.6667 2.5 14.1667V7.08332C2.5 4.58332 3.75 2.91666 6.66667 2.91666H13.3333C16.25 2.91666 17.5 4.58332 17.5 7.08332Z" stroke="#787E91" strokeWidth="1.2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M9.99632 11.4167H10.0038" stroke="#787E91" strokeWidth="1.6" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6.91185 11.4167H6.91933" stroke="#787E91" strokeWidth="1.6" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6.91185 13.9167H6.91933" stroke="#787E91" strokeWidth="1.6" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );

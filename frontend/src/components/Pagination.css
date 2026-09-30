@@ -1,31 +1,31 @@
 .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
 }
 
 .pag-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .pag-btn:hover {
-   background-color: var(--pale-accent); 
+  background-color: var(--pale-accent);
 }
 
 .pag-btn.active {
-    background-color: var(--accent);
-    color: var(--bg);
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 .pag-numbers {
-    display: flex;
-    color: var(--text);
+  display: flex;
+  color: var(--text);
 }
 
 .pag-next {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }

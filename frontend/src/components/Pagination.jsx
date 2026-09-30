@@ -3,7 +3,7 @@ import "./Pagination.css";
 
 export default function Pagination({ count, currentPage, onPageChange }) {
 
-  if (count === 0) return <></>;
+  if (count <= 0) return <></>;
   const pageSize = 10;
   const totalPages = Math.ceil(count / pageSize);
 
