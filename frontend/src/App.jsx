@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
+import Header from './components/Header';
 import ReceiptsList from './components/ReceiptList';
 import ReceiptForm from './components/ReceiptForm';
+import Pagination from './components/Pagination'
+import ListFooter from './components/ListFooter';
+import SuccessModal from './components/SuccessModal';
 
 function App() {
   const [activeTab, setActiveTab] = useState('cabinet');
@@ -8,6 +12,7 @@ function App() {
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const fetchReceipts = async (pageNumber = 1) => {
     setLoading(true)
@@ -39,45 +44,45 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <div className="header-content">
-          <span className="logo">🎰 Чек на удачу</span>
-          <nav className="app-nav">
-            <button 
-              className={`nav-btn ${activeTab === 'form' ? 'active' : ''}`}
-              onClick={() => setActiveTab('form')}
-            >
-              Регистрация чека
-            </button>
-            <button 
-              className={`nav-btn ${activeTab === 'cabinet' ? 'active' : ''}`}
-              onClick={() => setActiveTab('cabinet')}
-            >
-              Личный кабинет
-            </button>
-          </nav>
-        </div>
-      </header>
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className="app-main">
+      <main>
         {activeTab === 'form' ? (
           <section className="screen-form">
-            <h2>Регистрация нового чека</h2>
-            <ReceiptForm onSuccess={() => fetchReceipts(1)} />
+            <ReceiptForm 
+              onSuccess={() => {fetchReceipts(1); setActiveTab('cabinet'); setModalOpen(true)}} 
+              onClose={() => setActiveTab('cabinet')}
+            />
           </section>
         ) : (
           <section className="screen-cabinet">
-            <div className="screen-header">
-              <h2>Ваши чеки ({count})</h2>
-              <button className="action-btn" onClick={() => setActiveTab('form')}>
-                + Зарегистрировать чек
-              </button>
+            <div className="list-header">
+              <h3>История чеков</h3>
+              <div className='list-count'>
+                <p>Чеков внесено: 
+                  <span>{count} шт.</span>
+                </p>
+              </div>
             </div>
             
             <ReceiptsList receipts={receipts} loading={loading} />
+
+            {!loading && (
+              <Pagination 
+                count={count} 
+                currentPage={page} 
+                onPageChange={(newPage) => fetchReceipts(newPage)} 
+              />
+            )}
+
+            <ListFooter setActiveTab={setActiveTab} count={count}/>
           </section>
         )}
       </main>
+      {modalOpen ? (
+        <SuccessModal setModalOpen={setModalOpen}/>
+      ) : <></>}
+
     </div>
   )
 }

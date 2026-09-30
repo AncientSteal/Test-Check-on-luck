@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions, pagination
 from .models import Receipt
 from .serializers import ReceiptSerializer
+from django.shortcuts import redirect
+from django.views import View
 
 class ReceiptPagination(pagination.PageNumberPagination):
     """Пагинация по 10 элементов"""
@@ -21,3 +23,10 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         """Ставим текущего пользователя как автора чека"""
         serializer.save(user=self.request.user)
 
+class MainRedirectView(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            # пользователь вошел — отправляем на фронтенд
+            return redirect('http://localhost:5173/')
+        # пользователь не вошел — отправляем на стандартную страницу входа Django
+        return redirect('rest_framework:login')

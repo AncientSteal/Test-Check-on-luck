@@ -9,9 +9,9 @@ class Receipt(models.Model):
     STATUS_REJECTED = 'rejected'
 
     STATUS_CHOICES = [
-        (STATUS_CHECKING, 'На проверке'),
-        (STATUS_ACCEPTED, 'Принят'),
-        (STATUS_REJECTED, 'Отклонен'),
+        (STATUS_CHECKING, 'В обработке'),
+        (STATUS_ACCEPTED, 'Обработан'),
+        (STATUS_REJECTED, 'Ошибка'),
     ]
 
     # связи и данные пользователя

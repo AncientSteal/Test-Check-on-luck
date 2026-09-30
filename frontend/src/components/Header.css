@@ -1,0 +1,78 @@
+header {
+  background-color: var(--bg);
+  padding: 26px var(--fileds);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo-state {
+  display: flex;
+  align-items:  center;
+}
+
+.header-logo {
+  background-color: var(--logo-bg);
+  width: 142px;
+  height: 38px;
+}
+
+.header-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-size: medium;
+}
+
+.nav-btn.active {
+  background-color: var(--btn-active);
+}
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.header-avatar {
+  border-radius: 50%;
+  background-color: var(--logo-bg);
+  width: 38px;
+  height: 38px;
+}
+
+.profile-short {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+.profile-short p {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-h);
+}
+
+.profile-short span {
+  font-size: 16px;
+  color: var(--text);
+}

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import "./ReceiptForm.css";
+import { CloseIcon, DangerIcon } from './Icons';
 
-export default function ReceiptForm({ onSuccess }) {
+export default function ReceiptForm({ onSuccess, onClose }) {
     const [formData, setFormData] = useState({
         fn: '',
         fd: '',
@@ -118,60 +120,67 @@ export default function ReceiptForm({ onSuccess }) {
 
     return (
         <div className="form-container">
+            <div className='form-header'>
+                <h3>Регистрация чека</h3>
+                <p>Введите необходимые данные с чека</p>
+            </div>
+            <button type="button" className="close-form-btn" onClick={onClose} aria-label="Закрыть форму">
+                <CloseIcon />
+            </button>
             <form onSubmit={handleSubmit} noValidate>
-                {submitStatus.message && (
-                    <div className={`form-alert ${submitStatus.success ? 'alert-success' : 'alert-error'}`}>
-                        {submitStatus.message}
+                {submitStatus.success === false && submitStatus.message && (
+                    <div className="form-alert alert-error">
+                        <DangerIcon /> {submitStatus.message}
                     </div>
                 )}
 
                 <div className="form-group">
-                    <label>ФН (Фискальный накопитель):</label>
+                    <label>ФН</label>
                     <input 
                         type="text" name="fn" value={formData.fn} onChange={handleChange} 
-                        className={errors.fn ? 'input-error' : ''} placeholder="16 цифр"
+                        className={errors.fn ? 'input-error' : ''} placeholder="Введите ФН"
                     />
-                    {errors.fn && <span className="error-text">{errors.fn}</span>}
+                    {errors.fn && <span className="error-text"><DangerIcon />{errors.fn}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label>ФД (Фискальный документ):</label>
+                    <label>Номер чека</label>
                     <input 
                         type="text" name="fd" value={formData.fd} onChange={handleChange} 
-                        className={errors.fd ? 'input-error' : ''}
+                        className={errors.fd ? 'input-error' : ''} placeholder='Введите номер чека (ФД)'
                     />
-                    {errors.fd && <span className="error-text">{errors.fd}</span>}
+                    {errors.fd && <span className="error-text"><DangerIcon />{errors.fd}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label>ФП (Фискальный признак):</label>
+                    <label>ФП</label>
                     <input 
                         type="text" name="fp" value={formData.fp} onChange={handleChange} 
-                        className={errors.fp ? 'input-error' : ''}
+                        className={errors.fp ? 'input-error' : ''} placeholder='Введите ФП'
                     />
-                    {errors.fp && <span className="error-text">{errors.fp}</span>}
+                    {errors.fp && <span className="error-text"><DangerIcon />{errors.fp}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label>Дата и время покупки:</label>
+                    <label>Дата покупки</label>
                     <input 
                         type="datetime-local" name="purchase_date" value={formData.purchase_date} onChange={handleChange} 
                         className={errors.purchase_date ? 'input-error' : ''}
                     />
-                    {errors.purchase_date && <span className="error-text">{errors.purchase_date}</span>}
+                    {errors.purchase_date && <span className="error-text"><DangerIcon />{errors.purchase_date}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label>Сумма чека (₽):</label>
+                    <label>Сумма</label>
                     <input 
                         type="number" name="amount" value={formData.amount} onChange={handleChange} 
                         className={errors.amount ? 'input-error' : ''} placeholder="Минимум 1000"
                     />
-                    {errors.amount && <span className="error-text">{errors.amount}</span>}
+                    {errors.amount && <span className="error-text"><DangerIcon />{errors.amount}</span>}
                 </div>
 
                 <button type="submit" className="submit-btn" disabled={isSubmitting}>
-                    {isSubmitting ? 'Отправка...' : 'Зарегистрировать чек'}
+                    {isSubmitting ? 'Отправка...' : 'Загрузить'}
                 </button>
             </form>
         </div>

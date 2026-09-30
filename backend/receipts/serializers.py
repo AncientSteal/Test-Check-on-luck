@@ -3,6 +3,7 @@ from django.conf import settings
 from datetime import datetime
 import zoneinfo
 from .models import Receipt
+from rest_framework.validators import UniqueTogetherValidator
 
 class ReceiptSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -19,37 +20,37 @@ class ReceiptSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'status', 'registration_date', 'reject_reason']
 
-        def validate_amount(self, value):
-            """Проверка суммы чека"""
-            if value < 1000:
-                raise serializers.ValidationError("Сумма чека должна быть не менее 1000 руб.")
-            return value
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Receipt.objects.all(),
+                fields=['fn', 'fd', 'fp'],
+                message="Чек с такой комбинацией ФН, ФД и ФП уже зарегистрирован в акции."
+            )
+        ]
 
-        def validate(self, data):
-            """Проверка дат акции и уникальности"""
-            purchase_date = data.get('purchase_date')
-            fn = data.get('fn')
-            fd = data.get('fd')
-            fp = data.get('fp')
+    def validate_amount(self, value):
+        """Проверка суммы чека"""
+        if value < 1000:
+            raise serializers.ValidationError("Сумма чека должна быть не менее 1000 руб.")
+        return value
 
-            try:
-                start_date = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
-                end_date = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
-            except ValueError:
-                raise serializers.ValidationError({"non_field_errors": "Ошибка конфигурации даты акции"})
+    def validate(self, data):
+        """Проверка дат акции"""
+        purchase_date = data.get('purchase_date')
 
-            if purchase_date.tzinfo is None:
-                purchase_date = purchase_date.replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
+        try:
+            start_date = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
+            end_date = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
+        except ValueError:
+            raise serializers.ValidationError({"non_field_errors": "Ошибка конфигурации даты акции"})
 
-            if not (start_date <= purchase_date <= end_date):
-                raise serializers.ValidationError({
-                    "purchase_date": "Дата покупки должна входить в период акции."
-                })
+        if purchase_date.tzinfo is None:
+            purchase_date = purchase_date.replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
 
-            if Receipt.objects.filter(fn=fn, fd=fd, fp=fp).exists():
-                raise serializers.ValidationError({
-                    "non_field_errors": "Данный чек уже был зарегистрирован."
-                })
+        if not (start_date <= purchase_date <= end_date):
+            raise serializers.ValidationError({
+                "purchase_date": "Дата покупки должна входить в период акции."
+            })
 
-            return data
+        return data
 
