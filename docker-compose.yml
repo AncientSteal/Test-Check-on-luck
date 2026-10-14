@@ -21,7 +21,7 @@ services:
     container_name: lucky_promo_backend
     volumes:
       - ./backend:/app
-    ports:
+    ports: 
       - "8000:8000"
     environment:
       - DB_HOST=db

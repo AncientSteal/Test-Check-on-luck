@@ -5,7 +5,7 @@ from .models import Receipt
 class ReceiptAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "amount", "status", "purchase_date", "registration_date")
     list_filter = ("status", "purchase_date", "registration_date")
-    search_fields = ("fn", "fd", "fp", "user_username")
+    search_fields = ("fn", "fd", "fp", "user__username")
     list_editable = ("status",)
 
     fieldsets = (

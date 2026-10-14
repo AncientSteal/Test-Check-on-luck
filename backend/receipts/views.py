@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, pagination
+from rest_framework import viewsets, permissions, pagination, mixins
 from .models import Receipt
 from .serializers import ReceiptSerializer
 from django.shortcuts import redirect
@@ -9,7 +9,9 @@ class ReceiptPagination(pagination.PageNumberPagination):
     page_size = 10
     page_size_query_param = None
 
-class ReceiptViewSet(viewsets.ModelViewSet):
+class ReceiptViewSet(mixins.ListModelMixin,
+                     mixins.CreateModelMixin,
+                     viewsets.GenericViewSet):
     serializer_class = ReceiptSerializer
     pagination_class = ReceiptPagination
 
