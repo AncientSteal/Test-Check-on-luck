@@ -21,7 +21,7 @@ class Receipt(models.Model):
     # данные чека
     fn = models.CharField(max_length=16, verbose_name='ФН (фискальный накопитель)')
     fd = models.CharField(max_length=10, verbose_name='ФД (фискальный документ)')
-    fp = models.CharField(max_length=10, verbose_name='ФП (фискальный призрак)')
+    fp = models.CharField(max_length=10, verbose_name='ФП (фискальный признак)')
 
     purchase_date = models.DateTimeField(verbose_name='Дата и время покупки')
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма чека')
