@@ -1,0 +1,41 @@
+name: Django & React Continuous Integration
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Скачиваем код репозитория на виртуальную машину GitHub
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Создаем временный файл .env из .env.example, чтобы контейнеры запустились
+    - name: Create .env file
+      run: cp .env.example .env
+
+    # 3. Поднимаем всю инфраструктуру через Docker Compose
+    - name: Build and start Docker containers
+      run: docker compose up --build -d
+
+    # 4. Даем базе данных PostgreSQL несколько секунд, чтобы полностью инициализироваться
+    - name: Wait for PostgreSQL to be ready
+      run: sleep 15
+
+    # 5. Запускаем проверку стиля кода прямо внутри контейнера бэкенда
+    - name: Run Flake8 Linter inside backend container
+      run: docker compose exec -T backend flake8 .
+
+    # 6. Прогоняем пакет из Unit-тестов на pytest внутри контейнера бэкенда
+    - name: Run PyTest inside backend container
+      run: docker compose exec -T backend pytest -v
+
+    # 7. Гасим контейнеры после успешного тестирования
+    - name: Shutdown Docker containers
+      run: docker compose down
+

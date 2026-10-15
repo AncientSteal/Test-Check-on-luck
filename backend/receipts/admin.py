@@ -3,6 +3,7 @@ from .models import Receipt
 from django import forms
 from django.core.exceptions import ValidationError
 
+
 class ReceiptAdminForm(forms.ModelForm):
     class Meta:
         model = Receipt
@@ -19,6 +20,7 @@ class ReceiptAdminForm(forms.ModelForm):
             })
 
         return cleaned_data
+
 
 @admin.register(Receipt)
 class ReceiptAdmin(admin.ModelAdmin):

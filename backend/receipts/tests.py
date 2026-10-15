@@ -11,20 +11,24 @@ from .serializers import ReceiptSerializer
 
 User = get_user_model()
 
+
 @pytest.fixture
 def promo_dates():
     """Фикстура для получения корректных дат акции"""
     start = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
-    end = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(hour=23, minute=59, second=59, tzinfo=zoneinfo.ZoneInfo('UTC'))
+    end = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(
+        hour=23, minute=59, second=59, tzinfo=zoneinfo.ZoneInfo('UTC')
+    )
     return start, end
+
 
 @pytest.fixture
 def test_user():
     """Фикстура для создания тестового пользователя в БД"""
     return User.objects.create_user(username='testuser', password='password123')
 
-# --- ТЕСТЫ ДЛЯ ВАЛИДАЦИИ ДАННЫХ ---
 
+# --- ТЕСТЫ ДЛЯ ВАЛИДАЦИИ ДАННЫХ ---
 @pytest.mark.django_db
 def test_valid_receipt_serializer(promo_dates):
     """Проверка валидации корректного чека"""
@@ -38,6 +42,7 @@ def test_valid_receipt_serializer(promo_dates):
     }
     serializer = ReceiptSerializer(data=valid_data)
     assert serializer.is_valid() is True
+
 
 @pytest.mark.django_db
 def test_amount_less_than_1000_fails(promo_dates):
@@ -54,6 +59,7 @@ def test_amount_less_than_1000_fails(promo_dates):
     assert serializer.is_valid() is False
     assert 'amount' in serializer.errors
 
+
 @pytest.mark.django_db
 def test_purchase_date_out_of_promo_fails(promo_dates):
     """Проверка отклонения чека вне периода акции"""
@@ -68,6 +74,7 @@ def test_purchase_date_out_of_promo_fails(promo_dates):
     serializer = ReceiptSerializer(data=invalid_data)
     assert serializer.is_valid() is False
     assert 'purchase_date' in serializer.errors
+
 
 @pytest.mark.django_db
 def test_purchase_date_last_day_of_promo(promo_dates):
@@ -114,7 +121,6 @@ def test_receipt_unique_constraint(promo_dates, test_user):
 
 
 # --- ТЕСТЫ ДЛЯ MAIN_REDIRECT_VIEW ---
-
 @pytest.mark.django_db
 def test_main_redirect_anonymous_user(client):
     """Анонимного пользователя с главной страницы должно редиректить на логин DRF"""
@@ -140,7 +146,6 @@ def test_main_redirect_authenticated_user(client, test_user):
 
 
 # --- ТЕСТЫ НА БЕЗОПАСНОСТЬ VIEWSET (Ограничение чужих чеков) ---
-
 @pytest.mark.django_db
 def test_viewset_anonymous_user_denied(client):
     """Анонимный пользователь получает 403 Forbidden при попытке запросить API"""
@@ -149,6 +154,7 @@ def test_viewset_anonymous_user_denied(client):
 
     # Так как стоит permission_classes = [IsAuthenticated], сервер должен заблокировать запрос
     assert response.status_code == 403
+
 
 @pytest.mark.django_db
 def test_viewset_returns_only_owner_receipts(client, test_user, promo_dates):
@@ -189,8 +195,9 @@ def test_viewset_returns_only_owner_receipts(client, test_user, promo_dates):
     # Чужого чека в ответе быть не может
     assert all(item['id'] != other_receipt.id for item in results)
 
+
 @pytest.mark.django_db
-def test_viewset_returns_only_owner_receipts(client, test_user, promo_dates):
+def test_viewset_receipts_does_not_have_all_methods(client, test_user, promo_dates):
     """ViewSet не имеет встроенного метода для удаления или редактирования чека"""
     start_date, _ = promo_dates
 
@@ -213,6 +220,7 @@ def test_viewset_returns_only_owner_receipts(client, test_user, promo_dates):
     assert response_put.status_code == 404
     response_patch = client.patch(f'/api/receipts/{my_receipt.id}/')
     assert response_patch.status_code == 404
+
 
 # --- ТЕСТЫ ДЛЯ АДМИНКИ ---
 @pytest.mark.django_db
@@ -238,7 +246,8 @@ def test_admin_form_validation_requires_reason_on_error_status(test_user, promo_
     assert form.is_valid() is False
     # И выдать кастомную ошибку во внутреннем словаре
     assert 'reject_reason' in form.errors
-    assert "При переводе чека в статус ошибки необходимо обязательно указать причину отказа!" in form.errors['reject_reason'][0]
+    assert ("При переводе чека в статус ошибки необходимо обязательно указать причину отказа!"
+            in form.errors['reject_reason'][0])
 
     # Проверяем, что с заполненной причиной форма успешно проходит валидацию
     valid_form_data = invalid_form_data.copy()

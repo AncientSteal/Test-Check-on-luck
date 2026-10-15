@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Receipt(models.Model):
     STATUS_CHECKING = 'checking'
     STATUS_ACCEPTED = 'accepted'

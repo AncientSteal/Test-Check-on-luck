@@ -4,10 +4,12 @@ from .serializers import ReceiptSerializer
 from django.shortcuts import redirect
 from django.views import View
 
+
 class ReceiptPagination(pagination.PageNumberPagination):
     """Пагинация по 10 элементов"""
     page_size = 10
     page_size_query_param = None
+
 
 class ReceiptViewSet(mixins.ListModelMixin,
                      mixins.CreateModelMixin,
@@ -24,6 +26,7 @@ class ReceiptViewSet(mixins.ListModelMixin,
     def perform_create(self, serializer):
         """Ставим текущего пользователя как автора чека"""
         serializer.save(user=self.request.user)
+
 
 class MainRedirectView(View):
     def get(self, request, *args, **kwargs):

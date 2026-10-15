@@ -5,6 +5,7 @@ import zoneinfo
 from .models import Receipt
 from rest_framework.validators import UniqueTogetherValidator
 
+
 class ReceiptSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     status_display = serializers.CharField(source='get_status_display', read_only=True)
@@ -39,7 +40,9 @@ class ReceiptSerializer(serializers.ModelSerializer):
         purchase_date = data.get('purchase_date')
 
         try:
-            start_date = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
+            start_date = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(
+                tzinfo=zoneinfo.ZoneInfo('UTC')
+            )
             end_date = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(
                 hour=23, minute=59, second=59, tzinfo=zoneinfo.ZoneInfo('UTC')
             )
@@ -55,4 +58,3 @@ class ReceiptSerializer(serializers.ModelSerializer):
             })
 
         return data
-
