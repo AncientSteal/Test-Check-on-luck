@@ -40,7 +40,9 @@ class ReceiptSerializer(serializers.ModelSerializer):
 
         try:
             start_date = datetime.strptime(settings.PROMO_START_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
-            end_date = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(tzinfo=zoneinfo.ZoneInfo('UTC'))
+            end_date = datetime.strptime(settings.PROMO_END_DATE, '%Y-%m-%d').replace(
+                hour=23, minute=59, second=59, tzinfo=zoneinfo.ZoneInfo('UTC')
+            )
         except ValueError:
             raise serializers.ValidationError({"non_field_errors": "Ошибка конфигурации даты акции"})
 
