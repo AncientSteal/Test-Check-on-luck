@@ -35,7 +35,15 @@ jobs:
     - name: Run PyTest inside backend container
       run: docker compose exec -T backend pytest -v
 
-    # 7. Гасим контейнеры после успешного тестирования
+    # 7. Проверка стиля кода через ESLint
+    - name: Run ESLint Linter inside frontend container
+      run: docker compose exec -T frontend npm run lint
+
+    # 8. Прогон Unit- и UI-тестов на Vitest
+    - name: Run Vitest inside frontend container
+      run: docker compose exec -T frontend npm run test
+
+    # 9. Гасим контейнеры после успешного тестирования
     - name: Shutdown Docker containers
       run: docker compose down
 

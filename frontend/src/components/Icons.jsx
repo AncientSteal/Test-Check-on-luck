@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import React from 'react'
+
 export const ArrowIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
         <path stroke="#3e4552" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.2" d="M10 13.28 5.653 8.933a1.324 1.324 0 0 1 0-1.866L10 2.72"/>

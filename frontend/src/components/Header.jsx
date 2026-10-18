@@ -1,17 +1,15 @@
 import {
-  ArrowIcon,
-  HomeIcon,
-  AskIcon,
-  ProfileIcon,
-  SignIcon,
-  CloseIcon,
-  BurgerIcon,
+  ArrowIcon, HomeIcon, AskIcon,
+  ProfileIcon, SignIcon, CloseIcon, BurgerIcon,
 } from "./Icons";
 import "./Header.css";
 import { useState } from "react";
+import { useUserStore } from '../store/useUserStore';
 
-export default function Header({ activeTab, setActiveTab, windowWidth }) {
+export default function Header({ activeTab, setActiveTab }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userName = useUserStore((state) => state.user?.username) || 'User';
+  const userEmail = useUserStore((state) => state.user?.email) || 'user do not write email';
 
   const handleNavClick = (tab) => {
     setActiveTab(tab);
@@ -43,8 +41,8 @@ export default function Header({ activeTab, setActiveTab, windowWidth }) {
               <div className="profile-info">
                 <div className="header-avatar"></div>
                 <div className="profile-short">
-                  <p>User</p>
-                  <span>nameuser@email.com</span>
+                  <p>{userName}</p>
+                  <span>{userEmail}</span>
                 </div>
               </div>
             </div>
@@ -103,8 +101,8 @@ export default function Header({ activeTab, setActiveTab, windowWidth }) {
             <div className="profile-info">
               <div className="header-avatar"></div>
               <div className="profile-short">
-                <p>User</p>
-                <span>nameuser@email.com</span>
+                <p>{userName}</p>
+                <span>{userEmail}</span>
               </div>
             </div>
           </div>

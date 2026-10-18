@@ -4,7 +4,15 @@ from datetime import datetime
 import zoneinfo
 from .models import Receipt
 from rest_framework.validators import UniqueTogetherValidator
+from django.contrib.auth import get_user_model
 
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
 
 class ReceiptSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')

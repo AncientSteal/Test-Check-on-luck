@@ -1,8 +1,7 @@
 import { PaginationIcon } from "./Icons";
 import "./Pagination.css";
 
-export default function Pagination({ count, currentPage, onPageChange }) {
-
+export default function Pagination({ count, currentPage, setPage }) {
   if (count <= 0) return <></>;
   const pageSize = 10;
   const totalPages = Math.ceil(count / pageSize);
@@ -16,30 +15,36 @@ export default function Pagination({ count, currentPage, onPageChange }) {
 
   return (
     <div className="pagination-container">
-      <button 
+      <button
         className="pag-btn pag-prev"
         disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => {
+          setPage(currentPage - 1);
+        }}
       >
         <PaginationIcon />
       </button>
 
       <div className="pag-numbers">
-        {pages.map(num => (
+        {pages.map((num) => (
           <button
             key={num}
-            className={`pag-btn num-btn ${currentPage === num ? 'active' : ''}`}
-            onClick={() => onPageChange(num)}
+            className={`pag-btn num-btn ${currentPage === num ? "active" : ""}`}
+            onClick={() => {
+              setPage(num);
+            }}
           >
             {num}
           </button>
         ))}
       </div>
 
-      <button 
+      <button
         className="pag-btn pag-next"
         disabled={currentPage === totalPages}
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => {
+          setPage(currentPage + 1);
+        }}
       >
         <PaginationIcon />
       </button>
